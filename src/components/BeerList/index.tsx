@@ -2,20 +2,24 @@ import { useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../api/store"
-import { BeerCard } from "../BeerCard";
+import { BeerListItem } from "../BeerListItem";
 import { BeerListDeleteButton } from "../BeerListDeleteButton";
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import './index.css';
 
 export const BeerList: React.FC = () => {
-  const { recipes, populateRecipes, deleteRecipes } = useRecipeStore();
+  const { 
+    populateRecipes, 
+    deleteRecipes,
+    getCurrentRecipes, 
+  } = useRecipeStore();
 
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const selectedRef = useRef<Set<number>>(new Set());
   const navigate = useNavigate();
 
   useEffectOnce(() => {
-    populateRecipes();
+    populateRecipes(true);
   });
 
   const deleteSelectedRecipes = () => {
@@ -41,10 +45,11 @@ export const BeerList: React.FC = () => {
   return (
     <div className="beer-list">
       {
-        recipes.map((recipe) => {
+        getCurrentRecipes().map((recipe, index) => {
           return (
-            <BeerCard 
-              recipe={recipe} 
+            <BeerListItem 
+              recipe={recipe}
+              index={index}
               key={recipe.id}
               onClick={navigateToDetails}
               onToggleSelect={toggleRecipeSelection} 

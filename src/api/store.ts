@@ -4,20 +4,31 @@ import { fetchRecipe, fetchRecipes } from "./api";
 
 interface RecipeListState {
   /**
-   * The list of beer recipes that will be rendered on a screen.
+   * The list of all fetched beer recipes.
    */
   recipes: BeerRecipe[];
 
   /**
-   * The list of additional beer recipes.
-   * This will be used in case if user decides to delete one or more entries.
+   * Index of the first recipe that will be rendered on the screen.
    */
-  extraRecipes: BeerRecipe[];
+  startIndex: number;
 
   /**
-   * Current page for fetching data from the API.
+   * Index of the last recipe that will be rendered on the screen.
    */
-  currentPage: number;
+  endIndex: number;
+
+  /**
+   * Next page for fetching data from the API.
+   */
+  nextPage: number;
+
+  /**
+   * Creates a new slice of {@link recipes} array 
+   * from {@link startIndex} to {@link endIndex} + 1.
+   * @returns The array of beer recipes that should be rendered.
+   */
+  getCurrentRecipes: () => BeerRecipe[];
 
   /**
    * Tries to find a cached recipe by its ID.
@@ -29,24 +40,44 @@ interface RecipeListState {
   getRecipeById: (id: number) => Promise<BeerRecipe>;
   
   /**
-   * Deletes one or more beer recipe from {@link recipes} list and 
-   * replaces it with recipes from {@link extraRecipes} list.
-   * Performs an extra fetch if there are not enough recipes in {@link extraRecipes}.
+   * Deletes one or more beer recipe from {@link recipes} list.
+   * Populates {@link recipes} list if there are not enough recipes.
    * @param ids The list of IDs of all beer recipes that should be deleted.
    */
   deleteRecipes: (ids: number[]) => Promise<void>;
 
   /**
-   * Fetches beer recipes from the API using {@link fetchRecipes} and 
-   * adds them to {@link recipes} and {@link extraRecipes} lists.
+   * Fetches beer recipes from the API using and adds them to {@link recipes} list.
+   * Fetching is done until the length of {@link recipes} exceeds {@link endIndex}.
+   * @param init Should {@link recipes} and {@link nextPage} be wiped before populate. 
+   * @param recipes Optional list of beer recipes to fill in.
    */
-  populateRecipes: () => Promise<void>;
+  populateRecipes: (init?: boolean, recipes?: BeerRecipe[]) => Promise<void>;
+
+  /**
+   * Shifts {@link startIndex} and {@link endIndex} backward by a step. 
+   * @param step The step.
+   */
+  moveBackward: (step?: number) => void;
+
+  /**
+   * Shifts {@link startIndex} and {@link endIndex} forward by a step. 
+   * @param step The step.
+   */
+  moveForward: (step?: number) => void;
 }
 
 export const useRecipeStore = create<RecipeListState>((set, get) => ({
   recipes: [],
-  extraRecipes: [],
-  currentPage: 1,
+  startIndex: 0,
+  endIndex: Number(import.meta.env.VITE_BEERS_PER_PAGE) - 1,
+  nextPage: 1,
+
+  getCurrentRecipes() {
+    const { startIndex, endIndex, recipes } = get();
+
+    return recipes.slice(startIndex, endIndex + 1);
+  },
 
   async getRecipeById(id) {
     const cachedRecipe = get().recipes.find((r) => r.id === id);
@@ -65,62 +96,60 @@ export const useRecipeStore = create<RecipeListState>((set, get) => ({
   },
 
   async deleteRecipes(ids) {
-    const { recipes, extraRecipes, currentPage } = get();
-    const BEERS_PER_PAGE = Number(import.meta.env.VITE_BEERS_PER_PAGE);
+    const { recipes, populateRecipes } = get();
 
     const newRecipes = recipes.filter((r) => !ids.includes(r.id));
-    const newExtraRecipes = [...extraRecipes];
 
-    let newPage = currentPage;
-
-    while (newRecipes.length < BEERS_PER_PAGE) {
-      const remainingRecipes = BEERS_PER_PAGE - newRecipes.length;
-
-      if (newExtraRecipes.length < remainingRecipes) {
-        /**
-         * We want to increment current page only 
-         * when there are not enough extra recipes.
-         * This is done to prevent unwanted side effects
-         * from multiple component mounts.
-         */
-        const fetchedRecipes = await fetchRecipes(++newPage);
-        
-        if (!fetchedRecipes.data && fetchedRecipes.error) {
-          throw new Error(fetchedRecipes.error);
-        }
-
-        newExtraRecipes.push(...fetchedRecipes.data as BeerRecipe[]);
-      }
-
-      newRecipes.push(...newExtraRecipes.splice(0, remainingRecipes));
-    }
-
-    set({ 
-      recipes: newRecipes, 
-      extraRecipes: newExtraRecipes,
-      currentPage: newPage,
-    });
+    await populateRecipes(false, newRecipes);
   },
 
-  async populateRecipes() {
-    const { recipes, extraRecipes, currentPage } = get();
-    const BEERS_PER_PAGE = Number(import.meta.env.VITE_BEERS_PER_PAGE);
+  async populateRecipes(init = false, recipes = get().recipes) {
+    const { endIndex, nextPage } = get();
 
-    const totalRecipes = recipes.length + extraRecipes.length;
+    const newRecipes = init ? [] : [...recipes];
+    
+    let newPage = init ? 1 : nextPage;
 
-    if (totalRecipes >= BEERS_PER_PAGE) return;
+    while (newRecipes.length - 1 < endIndex) {
+      /**
+       * We want to increment current page only 
+       * when there are not enough extra recipes.
+       * This is done to prevent unwanted side effects
+       * from multiple component mounts.
+       */
+      const fetchedRecipes = await fetchRecipes(newPage++);
+      
+      if (!fetchedRecipes.data && fetchedRecipes.error) {
+        throw new Error(fetchedRecipes.error);
+      }
 
-    const fetchedRecipes = await fetchRecipes(currentPage);
-
-    if (!fetchedRecipes.data && fetchedRecipes.error) {
-      throw new Error(fetchedRecipes.error);
+      newRecipes.push(...fetchedRecipes.data as BeerRecipe[]);
     }
 
-    const data = fetchedRecipes.data as BeerRecipe[];
+    set({ recipes: newRecipes, nextPage: newPage });
+  },
+
+  moveBackward(step = 5) {
+    const { startIndex, endIndex, populateRecipes } = get();
+    
+    if (startIndex <= 0) return;
 
     set({
-      recipes: data.slice(0, BEERS_PER_PAGE),
-      extraRecipes: data.slice(BEERS_PER_PAGE),
+      startIndex: startIndex - step,
+      endIndex: endIndex - step,
     });
+
+    populateRecipes();
+  },
+
+  moveForward(step = 5) {
+    const { startIndex, endIndex, populateRecipes } = get();
+    
+    set({
+      startIndex: startIndex + step,
+      endIndex: endIndex + step,
+    });
+
+    populateRecipes();
   },
 }));

@@ -27,7 +27,7 @@ export const BeerCard: React.FC<BeerCardProps> = ({
 
   return (
     <div 
-      className='beer-list__item beer-card' 
+      className='beer-card' 
       onClick={onTouchOrClick} 
       ref={cardRef}
     >
