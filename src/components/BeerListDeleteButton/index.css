@@ -1,0 +1,25 @@
+.beer-list__button {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background-color: hsl(359, 87%, 55%);
+  color: white;
+  border: none;
+  transition: 0.25s ease-in, 0.1s ease-out;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+  bottom: 30px;
+}
+
+.beer-list__button:hover {
+  background-color: hsl(359, 88%, 45%);
+}
+
+.beer-list__button:disabled {
+  opacity: 0;
+  transform: translate(-50%, 100%);
+}
+
