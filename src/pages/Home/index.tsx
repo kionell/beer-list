@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../api/store"
-import { BeerListItem } from "../BeerListItem";
-import { BeerListDeleteButton } from "../BeerListDeleteButton";
+import { BeerListItem } from "../../components/BeerListItem";
+import { BeerListDeleteButton } from "../../components/BeerListDeleteButton";
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import './index.css';
 
-export const BeerList: React.FC = () => {
+export const Home: React.FC = () => {
   const { 
     populateRecipes, 
     deleteRecipes,
