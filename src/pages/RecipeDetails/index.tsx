@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useEffectOnce } from 'react-use';
 import { useParams } from 'react-router-dom';
-import { useRecipeStore } from '../api/store';
-import { RecipeNotFound } from './RecipeNotFound';
-import { BeerRecipe } from '../interfaces/BeerRecipe';
+import { useRecipeStore } from '../../api/store';
+import { RecipeNotFound } from '../NotFound';
+import { BeerRecipe } from '../../interfaces/BeerRecipe';
 
 export const RecipeDetails: React.FC = () => {
   const [recipe, setRecipe] = useState<BeerRecipe | null>(null);
