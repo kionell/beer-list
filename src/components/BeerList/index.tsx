@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
+import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../api/store"
 import { BeerCard } from "../BeerCard";
 import { BeerListDeleteButton } from "../BeerListDeleteButton";
@@ -11,6 +12,7 @@ export const BeerList: React.FC = () => {
 
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const selectedRef = useRef<Set<number>>(new Set());
+  const navigate = useNavigate();
 
   useEffectOnce(() => {
     populateRecipes();
@@ -23,6 +25,10 @@ export const BeerList: React.FC = () => {
 
     setButtonDisabled(true);
   }
+
+  const navigateToDetails = (recipe: BeerRecipe) => {
+    navigate(`/${recipe.id}`);
+  };
 
   const toggleRecipeSelection = (recipe: BeerRecipe) => {
     selectedRef.current.has(recipe.id) 
