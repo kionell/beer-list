@@ -1,7 +1,4 @@
 .card-skeleton {
-  margin-top: 16px;
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
   background-color: #e9e9e9;
   box-sizing: border-box;
@@ -130,8 +127,6 @@
 @media screen and (min-width: 440px) {   
   .card-skeleton {
     border-radius: 16px;
-    margin-left: 12px;
-    margin-right: 12px;
   }
 
   .card-skeleton__image {
@@ -158,8 +153,6 @@
     height: 240px;
     flex-direction: row;
     padding: 18px;
-    margin-left: auto;
-    margin-right: auto;
     gap: 12px;
   }
   

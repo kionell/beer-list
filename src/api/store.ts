@@ -65,6 +65,12 @@ interface RecipeListState {
    * @param step The step.
    */
   moveForward: (step?: number) => void;
+
+  /**
+   * Sets the new difference between {@link startIndex} and {@link endIndex}.
+   * @param limit The number of recipes that should be rendered.
+   */
+  setRecipeLimit: (limit?: number) => void;
 }
 
 export const useRecipeStore = create<RecipeListState>((set, get) => ({
@@ -152,4 +158,25 @@ export const useRecipeStore = create<RecipeListState>((set, get) => ({
 
     populateRecipes();
   },
+
+  setRecipeLimit(limit = Number(import.meta.env.VITE_BEERS_PER_PAGE) - 1) {
+    const { endIndex, populateRecipes } = get();
+    
+    limit = Math.max(limit, Number(import.meta.env.VITE_BEERS_PER_PAGE) - 1);
+
+    let newEndIndex = endIndex;
+    let newStartIndex = endIndex - limit;
+
+    if (endIndex < limit) {
+      newEndIndex = endIndex - newStartIndex;
+      newStartIndex = 0;
+    }
+
+    set({ 
+      startIndex: newStartIndex, 
+      endIndex: newEndIndex 
+    });
+
+    populateRecipes();
+  } 
 }));

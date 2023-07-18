@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useRecipeStore } from '../../api/store';
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import { BeerCard } from '../BeerCard';
 import { BeerCardSkeleton } from '../BeerCardSkeleton';
-import { useRecipeStore } from '../../api/store';
+import { calculateAbsoluteHeight } from '../../utils/css';
+import './index.css';
 
 interface BeerCatalogItemProps {
   recipe: BeerRecipe;
@@ -16,8 +18,8 @@ export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
   const { 
     startIndex, 
     endIndex, 
-    moveBackward, 
-    moveForward 
+    moveForward,
+    setRecipeLimit,
   } = useRecipeStore();
 
   /**
@@ -28,20 +30,39 @@ export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
    * 2) When triggerOnce is `false` we can scroll to the top
    * since all deleted cards are reloaded.
    */
-  const { ref, inView } = useInView({
+  const { ref, inView, entry } = useInView({
     threshold: 0.25,
     triggerOnce: true,
   })
 
   useEffect(() => {
-    if (!inView) return;
-
-    if (props.index + startIndex <= startIndex) {
-      moveBackward();
-    }
+    if (!inView || !entry) return;
 
     if (props.index + startIndex >= endIndex) {
-      moveForward();
+      const itemHeight = calculateAbsoluteHeight(entry.target);
+      const totalHeight = (endIndex - startIndex) * itemHeight;
+      
+      /**
+       * Starting viewport height greater than total height 
+       * of all cards can result in endless request spam 
+       * since the number of items on the screen is always the same.
+       * We can update the limit of rendered items to fix the problem.
+       */
+      if (window.innerHeight > totalHeight) {
+        const newLimit = Math.ceil(window.innerHeight / itemHeight) + 5;
+
+        setRecipeLimit(newLimit);
+
+        if (window.scrollY === 0) return;
+      }
+
+      const ITEMS_PER_PAGE = Number(import.meta.env.VITE_BEERS_PER_PAGE);
+
+      if (window.innerHeight < (ITEMS_PER_PAGE - 1) * itemHeight) {
+        setRecipeLimit();
+      }
+
+      return moveForward();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
