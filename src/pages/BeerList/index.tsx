@@ -7,7 +7,7 @@ import { BeerListDeleteButton } from "../../components/BeerListDeleteButton";
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import './index.css';
 
-export const Home: React.FC = () => {
+export const BeerList: React.FC = () => {
   const { 
     populateRecipes, 
     deleteRecipes,
