@@ -5,14 +5,14 @@ import { BeerCard } from '../BeerCard';
 import { BeerCardSkeleton } from '../BeerCardSkeleton';
 import { useRecipeStore } from '../../api/store';
 
-interface BeerListItemProps {
+interface BeerCatalogItemProps {
   recipe: BeerRecipe;
   index: number;
   onClick?: (recipe: BeerRecipe) => void;
   onToggleSelect?: (recipe: BeerRecipe) => void;
 }
 
-export const BeerListItem: React.FC<BeerListItemProps> = (props) => {
+export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
   const { 
     startIndex, 
     endIndex, 
@@ -47,7 +47,7 @@ export const BeerListItem: React.FC<BeerListItemProps> = (props) => {
   }, [inView]);
 
   return (
-    <div className='beer-list__item' ref={ref}>
+    <div className='beer-catalog__item' ref={ref}>
       { inView ? <BeerCard {...props} /> : <BeerCardSkeleton /> }
     </div>
   );

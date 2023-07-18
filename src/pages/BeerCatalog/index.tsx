@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../api/store"
-import { BeerListItem } from "../../components/BeerListItem";
-import { BeerListDeleteButton } from "../../components/BeerListDeleteButton";
+import { BeerCatalogItem } from "../../components/BeerCatalogItem";
+import { BeerCatalogDeleteButton } from "../../components/BeerCatalogDeleteButton";
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import './index.css';
 
-export const BeerList: React.FC = () => {
+export const BeerCatalog: React.FC = () => {
   const { 
     populateRecipes, 
     deleteRecipes,
@@ -43,11 +43,11 @@ export const BeerList: React.FC = () => {
   };
 
   return (
-    <div className="beer-list">
+    <div className="beer-catalog">
       {
         getCurrentRecipes().map((recipe, index) => {
           return (
-            <BeerListItem 
+            <BeerCatalogItem 
               recipe={recipe}
               index={index}
               key={recipe.id}
@@ -57,7 +57,7 @@ export const BeerList: React.FC = () => {
           );
         })
       }
-      <BeerListDeleteButton
+      <BeerCatalogDeleteButton
         onClick={deleteSelectedRecipes}
         disabled={isButtonDisabled}
       />

@@ -1,4 +1,4 @@
-.beer-list__button {
+.beer-catalog__button {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -14,11 +14,11 @@
   bottom: 30px;
 }
 
-.beer-list__button:hover {
+.beer-catalog__button:hover {
   background-color: hsl(359, 88%, 45%);
 }
 
-.beer-list__button:disabled {
+.beer-catalog__button:disabled {
   opacity: 0;
   transform: translate(-50%, 100%);
 }

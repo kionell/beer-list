@@ -7,9 +7,9 @@ interface DeleteButtonProps {
   disabled: boolean;
 }
 
-export const BeerListDeleteButton: React.FC<DeleteButtonProps> = (props) => {
+export const BeerCatalogDeleteButton: React.FC<DeleteButtonProps> = (props) => {
   return (
-    <button {...props} className="beer-list__button">
+    <button {...props} className="beer-catalog__button">
       <DeleteIcon />
     </button>
   );
