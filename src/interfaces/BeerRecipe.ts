@@ -6,9 +6,9 @@ interface BeerMalt {
 }
 
 interface BeerHops {
-  add: string;
+  add: 'start' | 'middle' | 'end' | 'dry hop';
   amount: UnitValue;
-  attribute: string;
+  attribute: 'bitter' | 'flavour' | 'aroma';
   name: string;
 }
 

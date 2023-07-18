@@ -1,4 +1,4 @@
 export interface UnitValue {
   value: number;
-  unit: string;
+  unit: 'litres' | 'kilograms' | 'grams' | 'celsius';
 }
