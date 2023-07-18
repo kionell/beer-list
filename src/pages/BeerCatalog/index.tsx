@@ -31,7 +31,7 @@ export const BeerCatalog: React.FC = () => {
   }
 
   const navigateToDetails = (recipe: BeerRecipe) => {
-    navigate(`/${recipe.id}`);
+    navigate(`/beers/${recipe.id}`);
   };
 
   const toggleRecipeSelection = (recipe: BeerRecipe) => {
