@@ -124,12 +124,16 @@ export const useRecipeStore = create<RecipeListState>((set, get) => ({
        * from multiple component mounts.
        */
       const fetchedRecipes = await fetchRecipes(newPage++);
-      
+
       if (!fetchedRecipes.data && fetchedRecipes.error) {
         throw new Error(fetchedRecipes.error);
       }
 
-      newRecipes.push(...fetchedRecipes.data as BeerRecipe[]);
+      if (!fetchedRecipes.data?.length) {
+        break;
+      }
+
+      newRecipes.push(...fetchedRecipes.data);
     }
 
     set({ recipes: newRecipes, nextPage: newPage });
