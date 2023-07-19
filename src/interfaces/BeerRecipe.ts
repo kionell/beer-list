@@ -1,33 +1,33 @@
 import { UnitValue } from "./UnitValue";
 
-interface BeerMalt {
+export interface BeerMalt {
   name: string;
   amount: UnitValue;
 }
 
-interface BeerHops {
+export interface BeerHops {
   add: 'start' | 'middle' | 'end' | 'dry hop';
   amount: UnitValue;
   attribute: 'bitter' | 'flavour' | 'aroma';
   name: string;
 }
 
-interface BeerIngredients {
+export interface BeerIngredients {
   malt: BeerMalt[];
   hops: BeerHops[]; 
   yeast: string;
 }
 
-interface BeerMashTemp {
+export interface BeerMashTemp {
   duration: number;
   temp: UnitValue;
 }
 
-interface BeerFermentation {
+export interface BeerFermentation {
   temp: UnitValue;
 }
 
-interface BeerMethod {
+export interface BeerMethod {
   mash_temp: BeerMashTemp[], 
   fermentation: BeerFermentation, 
   twist: string | null;
