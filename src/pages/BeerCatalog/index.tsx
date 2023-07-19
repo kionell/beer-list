@@ -32,6 +32,9 @@ export const BeerCatalog: React.FC = () => {
 
   const navigateToDetails = (recipe: BeerRecipe) => {
     navigate(`/beers/${recipe.id}`);
+    
+    // Reset scroll top position on path change.
+    window.scrollTo({ top: 0 });
   };
 
   const toggleRecipeSelection = (recipe: BeerRecipe) => {
