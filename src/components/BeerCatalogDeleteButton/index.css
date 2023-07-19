@@ -12,6 +12,7 @@
   cursor: pointer;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
   bottom: 30px;
+  z-index: 2;
 }
 
 .beer-catalog__button:hover {
