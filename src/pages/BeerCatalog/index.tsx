@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../services/store"
@@ -14,6 +14,8 @@ export const BeerCatalog: React.FC = () => {
     getCurrentRecipes,
     hasSelected,
     setSelected,
+    startIndex,
+    endIndex,
   } = useRecipeStore();
 
   const selectedRef = useRef<Set<number>>(new Set());
@@ -22,6 +24,21 @@ export const BeerCatalog: React.FC = () => {
   useEffectOnce(() => {
     populateRecipes(true);
   });
+
+  /**
+   * This should deselect all recipes whose ID is outside of bounds. 
+   */
+  useEffect(() => {
+    if (!hasSelected) return;
+
+    for (const id of selectedRef.current.values()) {
+      if (id >= startIndex && id <= endIndex) continue;
+
+      selectedRef.current.delete(id);
+    }
+
+    setSelected(selectedRef.current.size > 0);
+  }, [hasSelected, startIndex, endIndex, setSelected]);
 
   const deleteSelectedRecipes = () => {
     deleteRecipes([...selectedRef.current]);
