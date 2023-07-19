@@ -1,0 +1,13 @@
+.malt__ingredients {
+  margin-left: 2rem;
+}
+
+.malt__title {
+  font-size: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .malt__title {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,25 @@
+.hop__ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.hop__ingredient span,
+.hop__ingredient h4 {
+  display: inline-block;
+  margin: 0;
+  margin-left: 0.4rem;
+}
+
+.hop__ingredient:not(:first-child) {
+  margin-top: 2rem;
+}
+
+.hop__information {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.hop__purpose {
+  margin-top: 0.4rem;
+}

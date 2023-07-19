@@ -1,0 +1,22 @@
+.info-card__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.info-card__text {
+  flex: 1;
+  margin-left: 0.5rem;
+  padding: 1rem;
+  background-color: rgb(240, 240, 240);
+  border-radius: 1rem;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .info-card__text {
+    font-size: 16px;
+  }
+}

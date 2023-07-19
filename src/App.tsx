@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { BeerCatalog } from "./pages/BeerCatalog";
-import { RecipeDetails } from './pages/RecipeDetails';
+import { BeerDetails } from './pages/BeerDetails';
+import { NotFound } from './pages/NotFound';
 import './App.css';
 
 export const App: React.FC = () => {
@@ -8,7 +9,8 @@ export const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<BeerCatalog />} /> 
-        <Route path='/beers/:recipeId' element={<RecipeDetails />} /> 
+        <Route path='/beers/:id' element={<BeerDetails />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

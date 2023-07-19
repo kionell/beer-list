@@ -1,3 +1,3 @@
-export const RecipeNotFound: React.FC = () => {
+export const NotFound: React.FC = () => {
   return <span>Not found!</span>;
 } 

@@ -1,0 +1,16 @@
+.titled-list__content {
+  padding-left: 1.75rem;
+  list-style-type: disc;
+}
+
+.titled-list__title,
+.titled-list__item {
+  font-size: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .titled-list__title,
+  .titled-list__item {
+    font-size: 16px;
+  }
+}

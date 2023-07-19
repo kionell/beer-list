@@ -1,0 +1,17 @@
+.yeast__title {
+  font-size: 24px;
+}
+
+.yeast__content {
+  font-size: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .yeast__title {
+    font-size: 20px;
+  }
+
+  .yeast__content {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,16 @@
+.hops__categories {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hops__title {
+  font-size: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .hops__title {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,7 @@
+.ingredients__container {
+  margin-top: 4rem;
+}
+
+.ingredients__section:not(:first-child) {
+  margin-top: 2rem;
+}

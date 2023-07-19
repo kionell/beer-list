@@ -1,0 +1,19 @@
+.malt__ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.malt__ingredient span,
+.malt__ingredient h4 {
+  display: inline-block;
+  margin: 0;
+  margin-left: 0.4rem;
+}
+
+.malt__ingredient:not(:first-child) {
+  margin-top: 2rem;
+}
+
+.malt__information {
+  margin-left: 1rem;
+}

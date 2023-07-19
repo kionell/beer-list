@@ -1,0 +1,14 @@
+.hops__category__name {
+  margin-left: 1rem;
+  font-size: 20px;
+}
+
+.hops__ingredients {
+  margin-left: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .hops__category__name {
+    font-size: 16px;
+  }
+}
