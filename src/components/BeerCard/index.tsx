@@ -33,7 +33,11 @@ export const BeerCard: React.FC<BeerCardProps> = ({
       ref={cardRef}
     >
       <div className='beer-card__image__container'>
-        <img className='beer-card__image' src={ recipe.image_url } />
+        <img 
+          className='beer-card__image'
+          alt='beer logo' 
+          src={ recipe.image_url } 
+        />
       </div>
       <div className='beer-card__content'>
         <h2 className='beer-card__name'>{ recipe.name }</h2>
