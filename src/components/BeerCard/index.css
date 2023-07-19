@@ -76,32 +76,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 24px;
-  color: #222222;
   gap: 8px;
 }
 
-.beer-stats__name {
-  font-weight: 400;
-}
-
-.beer-stats__unit {
-  font-weight: 700;
-}
-
 .beer-details__date {
-  color: #333333;
   position: relative;
-  font-size: 22px;
   text-align: center;
-}
-
-.beer-date__name {
-  font-weight: 400;
-}
-
-.beer-date__value {
-  font-weight: 700;
 }
 
 .selected {
@@ -174,12 +154,10 @@
   .beer-details__stats {
     position: relative;
     display: flex;
-    font-size: 18px;
     gap: 12px;
   }
 
   .beer-details__date {
     position: relative;
-    font-size: 16px;
   }
 }

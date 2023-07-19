@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useSelectable } from '../../hooks/useSelectable';
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import { stringifyUnitValue } from '../../utils/units';
+import { Chip } from '../Chip';
 import './index.css';
 
 interface BeerCardProps {
@@ -39,40 +40,28 @@ export const BeerCard: React.FC<BeerCardProps> = ({
         <p className='beer-card__description'>{ recipe.description }</p>
         <div className='beer-card__details beer-details'>
           <div className='beer-details__stats beer-stats'>
-            <span>
-              <span className='beer-stats__name'>Alcohol: </span>
-              <span className='beer-stats__unit'>
-                { 
-                  stringifyUnitValue(recipe.abv, '%')
-                }
-              </span>
-            </span>
-            <span>
-              <span className='beer-stats__name'>IBU: </span>
-              <span className='beer-stats__unit'>
-                { 
-                  stringifyUnitValue(recipe.ibu) 
-                }
-              </span>
-            </span>
-            <span>
-              <span className='beer-stats__name'>pH: </span>
-              <span className='beer-stats__unit'>
-                { 
-                  stringifyUnitValue(recipe.ph) 
-                }
-              </span>
-            </span>
+            <Chip 
+              title='Alchohol' 
+              content={stringifyUnitValue(recipe.abv, '%')}
+              color='#222222'
+            />
+            <Chip 
+              title='IBU' 
+              content={stringifyUnitValue(recipe.ibu)}
+              color='#222222'
+            />
+            <Chip 
+              title='ph' 
+              content={stringifyUnitValue(recipe.ph)}
+              color='#222222'
+            />
           </div>
           <div className='beer-details__date beer-date'>
-            <span>
-              <span className='beer-date__name'>Brewed In: </span>
-              <span className='beer-date__value'>
-                {
-                  stringifyUnitValue(recipe.first_brewed)
-                }
-              </span>
-            </span>
+            <Chip 
+              title='Brewed In' 
+              content={stringifyUnitValue(recipe.first_brewed)} 
+              color='#333333'
+            />
           </div>
         </div>
       </div>
