@@ -13,7 +13,7 @@ import { Contributor } from '../../components/Contributor';
 import './index.css';
 
 export const BeerDetails: React.FC = () => {
-  const [recipe, setRecipe] = useState<BeerRecipe | null>(null);
+  const [recipe, setRecipe] = useState<BeerRecipe | null | undefined>();
   
   const { getRecipeById } = useRecipeStore();
   const { id } = useParams();
@@ -24,7 +24,11 @@ export const BeerDetails: React.FC = () => {
       .catch(() => setRecipe(null));
   }, [id, getRecipeById]);
 
-  if (!recipe) return <NotFound />;
+  if (recipe === null) {
+    return <NotFound />;
+  }
+
+  if (!recipe) return;
 
   return (
     <div className='beer-details'>
