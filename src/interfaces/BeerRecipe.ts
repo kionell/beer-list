@@ -6,9 +6,9 @@ export interface BeerMalt {
 }
 
 export interface BeerHops {
-  add: 'start' | 'middle' | 'end' | 'dry hop';
+  add: string;
   amount: UnitValue;
-  attribute: 'bitter' | 'flavour' | 'aroma';
+  attribute: string;
   name: string;
 }
 
