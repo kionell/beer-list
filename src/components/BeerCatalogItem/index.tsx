@@ -31,7 +31,7 @@ export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
    * since all deleted cards are reloaded.
    */
   const { ref, inView, entry } = useInView({
-    threshold: 0.25,
+    threshold: 0.3,
     triggerOnce: true,
   })
 
