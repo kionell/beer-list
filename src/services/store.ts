@@ -24,11 +24,22 @@ interface RecipeListState {
   nextPage: number;
 
   /**
+   * Whether one or more items of the current recipe list is selected or not.
+   */
+  hasSelected: boolean;
+
+  /**
    * Creates a new slice of {@link recipes} array 
    * from {@link startIndex} to {@link endIndex} + 1.
    * @returns The array of beer recipes that should be rendered.
    */
   getCurrentRecipes: () => BeerRecipe[];
+
+  /**
+   * Sets current selected state.
+   * @param state Current selected state.
+   */
+  setSelected: (state: boolean) => void;
 
   /**
    * Tries to find a cached recipe by its ID.
@@ -78,11 +89,16 @@ export const useRecipeStore = create<RecipeListState>((set, get) => ({
   startIndex: 0,
   endIndex: Number(import.meta.env.VITE_BEERS_PER_PAGE) - 1,
   nextPage: 1,
+  hasSelected: false,
 
   getCurrentRecipes() {
     const { startIndex, endIndex, recipes } = get();
 
     return recipes.slice(startIndex, endIndex + 1);
+  },
+
+  setSelected(state: boolean) {
+    set({ hasSelected: state });
   },
 
   async getRecipeById(id) {
@@ -102,7 +118,9 @@ export const useRecipeStore = create<RecipeListState>((set, get) => ({
   },
 
   async deleteRecipes(ids) {
-    const { recipes, populateRecipes } = get();
+    const { recipes, populateRecipes, hasSelected } = get();
+
+    if (!hasSelected) return;
 
     const newRecipes = recipes.filter((r) => !ids.includes(r.id));
 

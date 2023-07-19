@@ -1,15 +1,16 @@
-import { useRef, RefObject } from "react";
-import { useEffectOnce } from "react-use";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { isRightButton, isTouchEvent } from "../utils/events";
+import { useRecipeStore } from "../services/store";
 
-const useSelectable = <T extends HTMLElement = HTMLElement>(
-  ref: RefObject<T>,
+const useSelectable = <T extends Element = Element>(
   onToggleSelect?: () => void,
 ) => {
-  const timeout = useRef<number>();
-  const target = useRef<T>();
+  const [ref, setRef] = useState<Element | null>(null);
+  const { hasSelected } = useRecipeStore();
 
-  const makeSelectable = (element: T) => {
+  const timeout = useRef<number>();
+
+  const makeSelectable = useCallback((element: T) => {
     const toggleSelected = () => {
       element.classList.toggle('selected');
   
@@ -26,62 +27,69 @@ const useSelectable = <T extends HTMLElement = HTMLElement>(
       if (touchEvent.touches.length < 2 && event.preventDefault) {
         event.preventDefault();
       }
-    }
+    };
 
-    const removeMouseListeners = () => {
-      element.removeEventListener('mouseup', onMouseUp);
-      element.removeEventListener('mouseleave', onMouseLeave);
-    } 
+    const onTouchOrClick = (event: Event) => {
+      if (!hasSelected) return;
+      
+      event.stopImmediatePropagation();
+      
+      onPointerUp();
+    };
 
-    const onMouseUp = () => {
-      removeMouseListeners();
+    const onPointerUp = () => {      
+      removeReleaseEventListeners();
       toggleSelected();
-    }
+    };
 
-    const onMouseLeave = () => removeMouseListeners();
+    const onPointerLeave = () => {
+      removeReleaseEventListeners();
+    };
 
     const onMouseDown = (event: Event) => {
       if (!isRightButton(event)) return;
 
-      element.addEventListener('mouseup', onMouseUp);
-      element.addEventListener('mouseleave', onMouseLeave);
+      element.addEventListener('mouseup', onPointerUp);
+      element.addEventListener('mouseleave', onPointerLeave);
     }
 
     const onTouchStart = () => {
-      element.addEventListener('touchend', preventDefault, {
-        passive: false,
-      });
-  
-      target.current = element;
       timeout.current = setTimeout(() => toggleSelected(), 500);
+
+      element.addEventListener('touchmove', onPointerLeave);
     };
 
-    const onTouchEnd = () => {
+    const removeReleaseEventListeners = () => {
       timeout.current && clearTimeout(timeout.current);
-  
-      if (target.current) {
-        target.current.removeEventListener('touchend', preventDefault);
-      }
-    }
 
+      element.removeEventListener('mouseup', onPointerUp);
+      element.removeEventListener('mouseleave', onPointerLeave);
+      element.removeEventListener('touchmove', onPointerLeave);
+    };
+
+    element.addEventListener('click', onTouchOrClick);
     element.addEventListener('contextmenu', preventDefault);
     element.addEventListener('mousedown', onMouseDown);
     element.addEventListener('touchstart', onTouchStart);
-    element.addEventListener('touchend', onTouchEnd);
+    element.addEventListener('touchmove', onPointerLeave);
     
     return () => {
+      element.removeEventListener('click', onTouchOrClick);
       element.removeEventListener('contextmenu', preventDefault);
       element.removeEventListener('mousedown', onMouseDown);
       element.removeEventListener('touchstart', onTouchStart);
-      element.removeEventListener('touchend', onTouchEnd);
+
+      removeReleaseEventListeners();
     };
-  }
+  }, [onToggleSelect, hasSelected]);
 
-  useEffectOnce(() => {
-    if (ref instanceof Function || !ref?.current) return;
+  useEffect(() => {
+    if (!ref) return;
 
-    return makeSelectable(ref.current);
-  });
+    return makeSelectable(ref as T);
+  }, [ref, makeSelectable]);
+
+  return { ref: setRef };
 };
 
 export { useSelectable };

@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { useSelectable } from '../../hooks/useSelectable';
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import { stringifyUnitValue } from '../../utils/units';
@@ -16,9 +15,7 @@ export const BeerCard: React.FC<BeerCardProps> = ({
   onClick,
   onToggleSelect,
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useSelectable(cardRef, () => {
+  const { ref } = useSelectable(() => {
     if (onToggleSelect) onToggleSelect(recipe)
   });
 
@@ -30,7 +27,7 @@ export const BeerCard: React.FC<BeerCardProps> = ({
     <div 
       className='beer-card' 
       onClick={onTouchOrClick} 
-      ref={cardRef}
+      ref={ref}
     >
       <div className='beer-card__image__container'>
         <img 

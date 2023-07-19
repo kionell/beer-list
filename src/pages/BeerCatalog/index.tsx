@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../../services/store"
@@ -11,10 +11,11 @@ export const BeerCatalog: React.FC = () => {
   const { 
     populateRecipes, 
     deleteRecipes,
-    getCurrentRecipes, 
+    getCurrentRecipes,
+    hasSelected,
+    setSelected,
   } = useRecipeStore();
 
-  const [isButtonDisabled, setButtonDisabled] = useState(true);
   const selectedRef = useRef<Set<number>>(new Set());
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ export const BeerCatalog: React.FC = () => {
 
     selectedRef.current.clear();
 
-    setButtonDisabled(true);
+    setSelected(false);
   }
 
   const navigateToDetails = (recipe: BeerRecipe) => {
@@ -42,7 +43,7 @@ export const BeerCatalog: React.FC = () => {
       ? selectedRef.current.delete(recipe.id) 
       : selectedRef.current.add(recipe.id);
 
-    setButtonDisabled(selectedRef.current.size === 0);
+    setSelected(selectedRef.current.size > 0);
   };
 
   return (
@@ -62,7 +63,7 @@ export const BeerCatalog: React.FC = () => {
       }
       <BeerCatalogDeleteButton
         onClick={deleteSelectedRecipes}
-        disabled={isButtonDisabled}
+        disabled={!hasSelected}
       />
     </div>
   );
