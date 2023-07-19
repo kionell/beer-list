@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
 import { useNavigate } from "react-router-dom";
-import { useRecipeStore } from "../../api/store"
+import { useRecipeStore } from "../../services/store"
 import { BeerCatalogItem } from "../../components/BeerCatalogItem";
 import { BeerCatalogDeleteButton } from "../../components/BeerCatalogDeleteButton";
 import { BeerRecipe } from "../../interfaces/BeerRecipe";

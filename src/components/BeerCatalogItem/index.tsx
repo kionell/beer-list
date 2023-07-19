@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useRecipeStore } from '../../api/store';
+import { useRecipeStore } from '../../services/store';
 import { BeerRecipe } from "../../interfaces/BeerRecipe";
 import { BeerCard } from '../BeerCard';
 import { BeerCardSkeleton } from '../BeerCardSkeleton';
