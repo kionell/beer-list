@@ -42,7 +42,7 @@ export const BeerCard: React.FC<BeerCardProps> = ({
       <div className='beer-card__content'>
         <h2 className='beer-card__name'>{ recipe.name }</h2>
         <p className='beer-card__description'>{ recipe.description }</p>
-        <div className='beer-card__details beer-details'>
+        <div className='beer-card__details'>
           <div className='beer-details__stats beer-stats'>
             <Chip 
               title='Alchohol' 

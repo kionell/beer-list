@@ -1,3 +1,9 @@
+import './index.css';
+
 export const NotFound: React.FC = () => {
-  return <span>Not found!</span>;
-} 
+  return (
+    <div className='not-found__container'>
+      <h1 className='not-found__text'>Not found!</h1>
+    </div>
+  );
+};

@@ -10,9 +10,3 @@ body {
   padding: 0;
   background-color: #FDFDFD;
 }
-
-#root {
-  max-width: 1170px;
-  margin: 0 auto;
-  margin-bottom: 10px;
-}
