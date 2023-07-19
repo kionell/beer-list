@@ -129,17 +129,9 @@
     border-radius: 16px;
   }
 
-  .card-skeleton__image {
-    height: 250px;
-  }
-
   .skeleton-details__stats {
     flex-direction: row;
     justify-content: space-between;
-  }
-
-  .card-skeleton__stat {
-    width: 25%;
   }
 
   .card-skeleton__date {
@@ -147,9 +139,8 @@
   }
 }
 
-@media screen and (min-width: 672px) {
+@media screen and (min-width: 768px) {
   .card-skeleton {
-    max-width: 900px;
     height: 240px;
     flex-direction: row;
     padding: 18px;
@@ -181,7 +172,7 @@
   
   .card-skeleton__details {
     display: flex;
-    height: 24px;
+    height: 30px;
     flex-direction: row;
     justify-content: space-between;
     margin-top: auto;

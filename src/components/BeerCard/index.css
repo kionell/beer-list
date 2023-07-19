@@ -39,12 +39,12 @@
   flex-direction: column;
   gap: 12px;
   padding: 6px;
-  font-family: 'Oxygen', sans-serif;
   text-align: justify;
   pointer-events: none;
 }
 
 .beer-card__name {
+  margin: 0;
   font-weight: 700;
   font-size: 32px;
   text-align: center;
@@ -52,6 +52,7 @@
 }
 
 .beer-card__description {
+  margin: 0;
   color: #333333;
   font-weight: 300;
   font-size: 22px;
@@ -93,19 +94,14 @@
     border-radius: 16px;
   }
 
-  .beer-card__image__container {
-    height: 250px;
-  }
-
   .beer-details__stats {
     flex-direction: row;
     justify-content: space-between;
   }
 }
 
-@media screen and (min-width: 672px) {
+@media screen and (min-width: 768px) {
   .beer-card {
-    max-width: 900px;
     height: 240px;
     flex-direction: row;
     padding: 18px;
