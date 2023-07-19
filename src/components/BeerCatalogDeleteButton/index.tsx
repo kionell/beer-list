@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { ReactComponent as DeleteIcon } from '../../assets/svg/delete.svg';
+import { DeleteIcon } from "../Icon";
 import './index.css';
 
 interface DeleteButtonProps {
@@ -10,7 +10,7 @@ interface DeleteButtonProps {
 export const BeerCatalogDeleteButton: React.FC<DeleteButtonProps> = (props) => {
   return (
     <button {...props} className="beer-catalog__button">
-      <DeleteIcon />
+      <DeleteIcon size={30} />
     </button>
   );
 }
