@@ -1,0 +1,27 @@
+.chip__container {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: lightgray;
+  border-radius: 0.3rem;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.chip__title {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.chip__content {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .chip__title {
+    font-size: 18px;
+  }
+
+  .chip__content {
+    font-size: 18px;
+  }
+}
