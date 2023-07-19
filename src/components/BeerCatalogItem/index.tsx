@@ -39,9 +39,11 @@ export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
     if (!inView || !entry) return;
 
     if (props.index + startIndex >= endIndex) {
+      const ITEMS_PER_PAGE = Number(import.meta.env.VITE_BEERS_PER_PAGE);
+
       const itemHeight = calculateAbsoluteHeight(entry.target);
       const totalHeight = (endIndex - startIndex) * itemHeight;
-      
+
       /**
        * Starting viewport height greater than total height 
        * of all cards can result in endless request spam 
@@ -53,10 +55,13 @@ export const BeerCatalogItem: React.FC<BeerCatalogItemProps> = (props) => {
 
         setRecipeLimit(newLimit);
 
-        if (window.scrollY === 0) return;
+        /**
+         * This prevents extra move forward when page loads.
+         */
+        if (window.scrollY === 0 && endIndex <= ITEMS_PER_PAGE - 1) {
+          return;
+        }
       }
-
-      const ITEMS_PER_PAGE = Number(import.meta.env.VITE_BEERS_PER_PAGE);
 
       if (window.innerHeight < (ITEMS_PER_PAGE - 1) * itemHeight) {
         setRecipeLimit();
